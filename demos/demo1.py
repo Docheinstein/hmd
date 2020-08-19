@@ -17,20 +17,8 @@ HMD_EXAMPLE = \
     **-a**, **--all**
         Show hidden files too
 
-    **-g**, **--group**
-        Group by file type
-
     **-l**
-        Show more details
-
-    **-r**, **--reverse**
-        Reverse sort order
-
-    **-S**
-        Show files size
-
-    **-s**, **--sort-size**
-        Sort by size"""
+        Show more details"""
 
 
 if __name__ == "__main__":

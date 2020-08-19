@@ -71,18 +71,54 @@ hmd -n -t -c 60 ls.hmd
 ```
 
 ### Usage from Python
+See `_main__.py` or `demos`.
 
+For example
+
+`demo1.py`
+```python
+from hmd import HMDAnsii
+
+HMD_EXAMPLE = \
+"""\
+. This is a comment, keep calm
+**NAME**
+    ls - list local directory content
+    
+**SYNOPSIS**
+    **ls** [*OPTION*]... [*DIR*]
+
+**DESCRIPTION**
+    List content of the local *DIR* or the current local directory if \
+    no *DIR* is specified.
+
+**OPTIONS**
+    **-a**, **--all**
+        Show hidden files too
+
+    **-l**
+        Show more details"""
+
+
+if __name__ == "__main__":
+    HMDAnsii().process(HMD_EXAMPLE)
+```
 
 ## HMD LANGUAGE
 
 The HMD language is really simple and is thought for contain the minimal stuff for 
 render a well formatted man page (ANSII formatting, automatic break respecting indent, align overriding, ...).
 
+In the spirit of a WYSIWYG language, you will get almost what your write, and
+differently from canonical markdown, a new line in the source will be translated
+to a new line in the output (*no ugly double space at end of line!*)
+
+
 See the `examples` folder for examples of `.hmd` files.
 
 Here an example of a `.hmd` file from the `examples` folder
 
-```markdown
+```
 **COMMAND**
     ls - list local directory content
 
@@ -113,11 +149,6 @@ Here an example of a `.hmd` file from the `examples` folder
         Sort by size
 ```
 
-### Idea
-In the spirit of a WYSIWYG language, you will get almost what your write, and
-differently from canonical markdown, a new line in the source will be translated
-to a new line in the output (*no ugly double space at end of line!*)
-
 ### Indent
 The indentation of each paragraph is equal to the number of left spaces in the source file.  
 If a line is longer the the number of available columns, the line will be broken and the
@@ -145,7 +176,7 @@ helps you to do so.
 To override the alignment for a part of the document, wrap it between `.A` and `./A`.  
 
 For example: 
-```markdown
+```
 .A     .
     1. I want this text to wrap below the 'I', not below the 1, if the length
     of the line is greater than the number of lines
