@@ -1,0 +1,24 @@
+**COMMAND**
+    trace - enable/disable packet tracing
+
+**SYNOPSIS**
+    **trace** [*LEVEL*]
+
+**DESCRIPTION**
+    Change the tracing level to *LEVEL* (default is *0*, which is disabled).
+    When tracing is enabled, packets sent and received to and from the \
+    server for any operation are shown.
+
+    The allowed values of *LEVEL* are:
+.A              .
+    *0*         disabled (default)
+    *1*         text
+    *2*         binary payloads
+    *3*         binary all (payload + header)
+./A
+
+    If no argument is given, increase the tracing level or resets it to 0 \
+    if it exceeds the maximum.
+    
+**SEE ALSO**
+    **verbose**
