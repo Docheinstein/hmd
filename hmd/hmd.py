@@ -83,7 +83,7 @@ class HMD:
                  columns=None,
                  hmd_filter: Callable=ansii_filter):
         self._columns = columns or _termsize()[0]
-        self._filter = hmd_filter
+        self._filter = hmd_filter()
         self._out = ""
 
         self._state = STATE_NONE
