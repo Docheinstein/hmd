@@ -217,7 +217,7 @@ class HMD:
 
         if self._escaping:
             # Was escaping due to a \, treat everything as literal
-            print("ESCAPE off")
+            _vprint("ESCAPE off")
             self._escaping = False
         else:
             # Not escaping
@@ -235,7 +235,7 @@ class HMD:
                 return skip_next
             # '\' : escape next char
             if char == MARK_ESCAPE:
-                print("ESCAPE on")
+                _vprint("ESCAPE on")
                 self._escaping = True
                 return skip_next
 
@@ -279,7 +279,7 @@ class HMD:
                     else:
                         # Follows a space, render the last char instead of -
                         # but skip it
-                        print(f"BREAKING WITH {char} - skip next")
+                        _vprint(f"BREAKING WITH {char} - skip next")
                         self._out += char
                         skip_next = 1
 
