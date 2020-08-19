@@ -1,6 +1,7 @@
-# ========= ANSI ==========
+# ============= ANSI ==============
+import pydoc
 import shutil
-from abc import ABC, abstractmethod
+from collections import Callable
 
 ANSII_RESET = "\033[0m"
 ANSII_BOLD = "\033[1m"
@@ -44,25 +45,46 @@ def _termsize(fallback=(80, 24)):
         return fallback
     return columns, rows
 
+
+# ========== HMD FILTERS =============
+
+class HMDFilter:
+    """ Encapsulates formatting tags. """
+    def __init__(self):
+        self.bold_begin = ""
+        self.bold_end = ""
+        self.italic_begin = ""
+        self.italic_end = ""
+
+
+def ansii_filter() -> HMDFilter:
+    hmd_filter = HMDFilter()
+    hmd_filter.bold_begin = ANSII_BOLD
+    hmd_filter.bold_end = ANSII_RESET
+    hmd_filter.italic_begin = ANSII_UNDERLINE
+    hmd_filter.italic_end = ANSII_RESET
+    return hmd_filter
+
+
+def text_filter() -> HMDFilter:
+    hmd_filter = HMDFilter()
+    return hmd_filter
+
+
 # =============== HMD ==================
 
-class HMD(ABC):
+class HMD:
     """
     Processor of .hmd documents.
     Read .hmd files and gives a formatted output.
     """
 
-    class Filters:
-        """ Encapsulates formatting tags (implemented by subclasses). """
-        def __init__(self):
-            self.bold_begin = ""
-            self.bold_end = ""
-            self.italic_begin = ""
-            self.italic_end = ""
 
-    def __init__(self, columns: int=None):
+    def __init__(self,
+                 columns: int=None,
+                 hmd_filter: Callable[None, HMDFilter]=ansii_filter):
         self._columns = columns or _termsize()[0]
-        self._filters = self._get_filters()
+        self._filter = hmd_filter()
         self._out = ""
 
         self._state = STATE_NONE
@@ -82,15 +104,18 @@ class HMD(ABC):
         self.__init__(columns=self._columns)
 
 
-    @abstractmethod
-    def _get_filters(self):
-        """ Must be implemented by subclasses for handle formatting. """
-        pass
+    def render(self, content: str):
+        """
+        Renders the output of convert() using the default pager (typically less).
+        :param content: the document content
+        """
+        pydoc.pager(self.convert(content))
 
-    def process(self, document: str):
+
+    def convert(self, content: str):
         """
         Reads the content of a .hmd `document` and returns the formatted output.
-        :param document: the document content
+        :param content: the document content
         :return: the processed and formatted content
         """
 
@@ -112,7 +137,7 @@ class HMD(ABC):
 
         # Split by lines, joining those if are ending with \
         lines = []
-        original_lines = document.splitlines()
+        original_lines = content.splitlines()
         extended_line = ""
 
         indent = None
@@ -315,37 +340,21 @@ class HMD(ABC):
     def _b(self):
         """ Opens or close a bold format, depending on the current format state """
         if self._format == F_NONE:
-            self._out += self._filters.bold_begin
+            self._out += self._filter.bold_begin
             self._format = F_BOLD
             _vprint("BOLD on")
         elif self._format == F_BOLD:
-            self._out += self._filters.bold_end
+            self._out += self._filter.bold_end
             self._format = F_NONE
             _vprint("BOLD off")
 
     def _i(self):
         """ Opens or close an italic format, depending on the current format state """
         if self._format == F_NONE:
-            self._out += self._filters.italic_begin
+            self._out += self._filter.italic_begin
             self._format = F_ITALIC
             _vprint("ITALIC on")
         elif self._format == F_ITALIC:
-            self._out += self._filters.italic_end
+            self._out += self._filter.italic_end
             self._format = F_NONE
             _vprint("ITALIC off")
-
-class HMDAnsii(HMD):
-    """ HMD processor that supports ANSII formatting (bold/italic). """
-    def _get_filters(self):
-        term_filter = HMD.Filters()
-        term_filter.bold_begin = ANSII_BOLD
-        term_filter.bold_end = ANSII_RESET
-        term_filter.italic_begin = ANSII_UNDERLINE
-        term_filter.italic_end = ANSII_RESET
-        return term_filter
-
-
-class HMDText(HMD):
-    """ HMD processor that does not use formatting. """
-    def _get_filters(self):
-        return HMD.Filters()

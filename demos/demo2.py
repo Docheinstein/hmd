@@ -1,4 +1,4 @@
-from hmd import HMD
+from hmd import HMD, text_filter
 
 HMD_EXAMPLE = \
 """\
@@ -22,5 +22,5 @@ HMD_EXAMPLE = \
 
 
 if __name__ == "__main__":
-    # Renders with less the processed .hmd
-    HMD().render(HMD_EXAMPLE)
+    # Print the processed .hmd (without style)
+    print(HMD(hmd_filter=text_filter).convert(HMD_EXAMPLE))

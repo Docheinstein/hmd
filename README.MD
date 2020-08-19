@@ -77,7 +77,7 @@ For example
 
 `demo1.py`
 ```python
-from hmd import HMDAnsii
+from hmd import HMD
 
 HMD_EXAMPLE = \
 """\
@@ -101,7 +101,8 @@ HMD_EXAMPLE = \
 
 
 if __name__ == "__main__":
-    HMDAnsii().process(HMD_EXAMPLE)
+    # Renders with less the processed .hmd
+    HMD().render(HMD_EXAMPLE)
 ```
 
 ## HMD LANGUAGE

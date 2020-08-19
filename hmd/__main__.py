@@ -1,9 +1,8 @@
 import argparse
-import pydoc
 import sys
 from pathlib import Path
 
-from hmd import HMDText, HMDAnsii
+from hmd.hmd import HMD, text_filter, ansii_filter
 
 """ AUTOMATICALLY GENERATED 
 usage: __main__.py [-h] [-t] [-v] [-n] [-c COLUMNS] input
@@ -60,14 +59,15 @@ def main():
         exit(-1)
 
     with hmd_input.open() as hmd_f:
-        hmd_class = HMDText if text_only else HMDAnsii
-        hmd = hmd_class(columns=columns)
+        hmd = HMD(columns=columns,
+                  hmd_filter=text_filter if text_only else ansii_filter)
 
-        out = hmd.process(hmd_f.read())
+        content = hmd_f.read()
+
         if no_pager:
-            print(out)
+            print(hmd.convert(content))
         else:
-            pydoc.pager(out)
+            hmd.render(content)
 
 if __name__ == '__main__':
     main()
