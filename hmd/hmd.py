@@ -1,7 +1,6 @@
 # ============= ANSI ==============
 import pydoc
 import shutil
-from collections import Callable
 
 ANSII_RESET = "\033[0m"
 ANSII_BOLD = "\033[1m"
