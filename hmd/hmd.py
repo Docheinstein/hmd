@@ -1,6 +1,7 @@
 # ============= ANSI ==============
 import pydoc
 import shutil
+from typing import Callable
 
 ANSII_RESET = "\033[0m"
 ANSII_BOLD = "\033[1m"
@@ -80,9 +81,9 @@ class HMD:
 
     def __init__(self,
                  columns=None,
-                 hmd_filter=ansii_filter):
+                 hmd_filter: Callable=ansii_filter):
         self._columns = columns or _termsize()[0]
-        self._filter = hmd_filter()
+        self._filter = hmd_filter
         self._out = ""
 
         self._state = STATE_NONE
@@ -99,7 +100,20 @@ class HMD:
         self._col = 0
 
     def _reset(self):
-        self.__init__(columns=self._columns)
+        self._out = ""
+
+        self._state = STATE_NONE
+        self._escaping = False
+        self._format = F_NONE
+        self._align = A_NONE
+
+        self._just_space = False
+        self._just_break = False
+
+        self._line = None
+        self._indent = 0
+        self._row = 0
+        self._col = 0
 
 
     def render(self, content: str):
