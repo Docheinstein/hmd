@@ -79,10 +79,9 @@ class HMD:
     Read .hmd files and gives a formatted output.
     """
 
-
     def __init__(self,
-                 columns: int=None,
-                 hmd_filter: Callable[None, HMDFilter]=ansii_filter):
+                 columns=None,
+                 hmd_filter=ansii_filter):
         self._columns = columns or _termsize()[0]
         self._filter = hmd_filter()
         self._out = ""
