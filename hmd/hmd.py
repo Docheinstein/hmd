@@ -182,7 +182,7 @@ class HMD:
             self._line = line
 
             # Directive (starting with .)
-            if line.startswith(DIRECTIVE_PREFIX) and indent == 0:
+            if line.startswith(DIRECTIVE_PREFIX):
                 self._handle_directive(line)
                 continue
 
