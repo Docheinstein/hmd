@@ -5,9 +5,9 @@ from pathlib import Path
 from hmd.hmd import HMD, text_filter, ansii_filter
 
 """ AUTOMATICALLY GENERATED 
-usage: __main__.py [-h] [-t] [-v] [-n] [-c COLUMNS] input
+usage: __main__.py [-h] [-t] [-n] [-c COLUMNS] [input]
 
-Render documents written in hmd (Help MarkDown) with the default pager
+Render documents written in hmd (Help MarkDown) with the default pager. Reads from 'input' or from stdin if it is not given.
 
 positional arguments:
   input                 Help MarkDown file to process and render
@@ -23,7 +23,10 @@ optional arguments:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Render documents written in hmd (Help MarkDown) with the default pager"
+        description="""\
+Render documents written in hmd (Help MarkDown) with the default pager.
+Reads from 'input' or from stdin if it is not given.
+"""
     )
 
     # --text
@@ -45,6 +48,7 @@ def main():
 
     # positional argument (document)
     parser.add_argument("input",
+                        nargs="?",
                         help="Help MarkDown file to process and render")
 
 
@@ -52,22 +56,33 @@ def main():
     text_only = parsed.get("text")
     columns = parsed.get("columns")
     no_pager = parsed.get("no_pager")
-    hmd_input = Path(parsed["input"]).expanduser()
 
-    if not hmd_input.exists():
-        print(f"Not exists: '{hmd_input}'")
-        exit(-1)
+    hmd_content = None
 
-    with hmd_input.open() as hmd_f:
-        hmd = HMD(columns=columns,
-                  hmd_filter=text_filter if text_only else ansii_filter)
+    if parsed.get("input"):
+        # Read from given file
+        hmd_input = Path(parsed["input"]).expanduser()
 
-        content = hmd_f.read()
+        if not hmd_input.exists():
+            print(f"Not exists: '{hmd_input}'")
+            exit(-1)
 
-        if no_pager:
-            print(hmd.convert(content))
-        else:
-            hmd.render(content)
+            try:
+                hmd_content = hmd_input.open().read()
+            except:
+                print(f"Cannot read '{hmd_input}'")
+                exit(-1)
+    else:
+        # Read from stdin
+        hmd_content = sys.stdin.read()
+
+    hmd = HMD(columns=columns,
+              hmd_filter=text_filter if text_only else ansii_filter)
+
+    if no_pager:
+        print(hmd.convert(hmd_content))
+    else:
+        hmd.render(hmd_content)
 
 if __name__ == '__main__':
     main()

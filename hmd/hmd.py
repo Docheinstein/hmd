@@ -183,7 +183,7 @@ class HMD:
 
             # Directive (starting with .)
             if line.startswith(DIRECTIVE_PREFIX):
-                self._handle_directive(line)
+                self._handle_directive(line, indent)
                 continue
 
             # Normal characters
@@ -203,14 +203,14 @@ class HMD:
         # Strip the last \n
         return self._out[:len(self._out) - 1]
 
-    def _handle_directive(self, line: str):
+    def _handle_directive(self, line: str, indent: int):
         """
         Handles directives (starting with .).
         :param line: the line for which handle the directive
         """
         if line.startswith(DIRECTIVE_A_BEGIN):
             # Align Begin
-            self._align = line.rfind(DIRECTIVE_A_NEEDLE)
+            self._align = indent + line.rfind(DIRECTIVE_A_NEEDLE)
         elif line.startswith(DIRECTIVE_A_END):
             # Align End
             self._align = A_NONE

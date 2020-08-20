@@ -35,9 +35,9 @@ python -m hmd
 ```
 
 ```
-usage: __main__.py [-h] [-t] [-v] [-n] [-c COLUMNS] input
+usage: __main__.py [-h] [-t] [-n] [-c COLUMNS] [input]
 
-Render documents written in hmd (Help MarkDown) with the default pager
+Render documents written in hmd (Help MarkDown) with the default pager. Reads from 'input' or from stdin if it is not given.
 
 positional arguments:
   input                 Help MarkDown file to process and render
@@ -45,7 +45,6 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   -t, --text            Output text, without ANSII style
-  -v, --verbose         Print debug messages
   -n, --no-pager        Just print, without using the pager
   -c COLUMNS, --columns COLUMNS
                         Override columns number (by default it depends on the terminal size)
