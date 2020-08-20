@@ -163,6 +163,13 @@ Same as markdown: \*\*NAME\*\* => **NAME**
 ##### Italic (underline)
 Same as markdown: \*DIR\* => *DIR*
 
+### Escaping
+Backslash (`\`) can be use for escape the next character.  
+You can use it for render characters that would be interpreted otherwise.  
+For example:  
+* \\* => *
+* \\\\ => \\
+
 ### Directives
 Each line starting with a `.` is a directive.
 
