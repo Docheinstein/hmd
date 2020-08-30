@@ -44,7 +44,7 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
-  -t, --text            Output text, without ANSII style
+  -t, --text            Output text, without ANSI style
   -n, --no-pager        Just print, without using the pager
   -c COLUMNS, --columns COLUMNS
                         Override columns number (by default it depends on the terminal size)
@@ -107,7 +107,7 @@ if __name__ == "__main__":
 ## HMD LANGUAGE
 
 The HMD language is really simple and is thought for contain the minimal stuff for 
-render a well formatted man page (ANSII formatting, automatic break respecting indent, align overriding, ...).
+render a well formatted man page (ANSI formatting, automatic break respecting indent, align overriding, ...).
 
 In the spirit of a WYSIWYG language, you will get almost what your write, and
 differently from canonical markdown, a new line in the source will be translated

@@ -3,9 +3,9 @@ import pydoc
 import shutil
 from typing import Callable
 
-ANSII_RESET = "\033[0m"
-ANSII_BOLD = "\033[1m"
-ANSII_UNDERLINE = "\033[4m"
+ANSI_RESET = "\033[0m"
+ANSI_BOLD = "\033[1m"
+ANSI_UNDERLINE = "\033[4m"
 
 # ========= HMD CONSTANTS ==========
 
@@ -57,12 +57,12 @@ class HMDFilter:
         self.italic_end = ""
 
 
-def ansii_filter() -> HMDFilter:
+def ansi_filter() -> HMDFilter:
     hmd_filter = HMDFilter()
-    hmd_filter.bold_begin = ANSII_BOLD
-    hmd_filter.bold_end = ANSII_RESET
-    hmd_filter.italic_begin = ANSII_UNDERLINE
-    hmd_filter.italic_end = ANSII_RESET
+    hmd_filter.bold_begin = ANSI_BOLD
+    hmd_filter.bold_end = ANSI_RESET
+    hmd_filter.italic_begin = ANSI_UNDERLINE
+    hmd_filter.italic_end = ANSI_RESET
     return hmd_filter
 
 
@@ -81,7 +81,7 @@ class HMD:
 
     def __init__(self,
                  columns=None,
-                 hmd_filter: Callable=ansii_filter):
+                 hmd_filter: Callable=ansi_filter):
         self._columns = columns or _termsize()[0]
         self._filter = hmd_filter()
         self._out = ""

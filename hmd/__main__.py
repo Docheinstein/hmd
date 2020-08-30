@@ -2,7 +2,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from hmd.hmd import HMD, text_filter, ansii_filter
+from hmd.hmd import HMD, text_filter, ansi_filter
 
 """ AUTOMATICALLY GENERATED 
 usage: __main__.py [-h] [-t] [-n] [-c COLUMNS] [input]
@@ -14,7 +14,7 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
-  -t, --text            Output text, without ANSII style
+  -t, --text            Output text, without ANSI style
   -n, --no-pager        Just print, without using the pager
   -c COLUMNS, --columns COLUMNS
                         Override columns number (by default it depends on the terminal size)
@@ -33,7 +33,7 @@ Reads from 'input' or from stdin if it is not given.
     parser.add_argument("-t", "--text",
                         action="store_const", const=True, default=False,
                         dest="text",
-                        help="Output text, without ANSII style")
+                        help="Output text, without ANSI style")
 
     # --no-pager
     parser.add_argument("-n", "--no-pager",
@@ -77,7 +77,7 @@ Reads from 'input' or from stdin if it is not given.
         hmd_content = sys.stdin.read()
 
     hmd = HMD(columns=columns,
-              hmd_filter=text_filter if text_only else ansii_filter)
+              hmd_filter=text_filter if text_only else ansi_filter)
 
     if no_pager:
         print(hmd.convert(hmd_content))
