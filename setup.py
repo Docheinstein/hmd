@@ -12,7 +12,7 @@ print("setup.py prefix:", sys.prefix)
 
 setup(
     name="hmd",
-    version="0.6",
+    version="0.7",
 
     # Requires python3.5
     python_requires=">=3.5",
